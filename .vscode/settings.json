@@ -9,5 +9,6 @@
   "eslint.validate": [
     "typescript",
     "typescriptreact"
-  ]
+  ],
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.js"
 }
