@@ -1,6 +1,9 @@
 {
   "name": "next-static-context",
   "packageManager": "yarn@3.0.0",
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src --extensions .ts --ignore \"src/**/__tests__/**/*\" --out-dir lib",
