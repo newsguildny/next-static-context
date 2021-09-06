@@ -53,12 +53,34 @@ export function withStaticContext(nextConfig: NextConfig = {}) {
         return config;
       }
 
+      const loader = require.resolve('./webpack/next-static-context-loader');
+
       if (Array.isArray(nextBabelRule.use)) {
-        nextBabelRule.use.push({ loader: 'next-static-context-loader', options: { isServer } });
+        const nextBabelUseItem = nextBabelRule.use.find((useItem) => {
+          if (isRuleSetUseItem(useItem)) {
+            return useItem.loader === 'next-babel-loader';
+          }
+
+          return false;
+        })!;
+        nextBabelRule.use.push({
+          loader,
+          options: {
+            ...(typeof nextBabelUseItem.options === 'object' && nextBabelUseItem.options),
+            isServer,
+          },
+        });
       } else {
+        const nextBabelUseItem = nextBabelRule.use!;
         nextBabelRule.use = [
           nextBabelRule.use,
-          { loader: 'next-static-context-loader', options: { isServer } },
+          {
+            loader,
+            options: {
+              ...(typeof nextBabelUseItem.options === 'object' && nextBabelUseItem.options),
+              isServer,
+            },
+          },
         ];
       }
 
