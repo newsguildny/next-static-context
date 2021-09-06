@@ -56,24 +56,15 @@ export function withStaticContext(nextConfig: NextConfig = {}) {
       const loader = require.resolve('./webpack/next-static-context-loader');
 
       if (Array.isArray(nextBabelRule.use)) {
-        const nextBabelUseItem = nextBabelRule.use.find((useItem) => {
-          if (isRuleSetUseItem(useItem)) {
-            return useItem.loader === 'next-babel-loader';
-          }
-
-          return false;
-        })!;
-        nextBabelRule.use.push({
+        nextBabelRule.use.unshift({
           loader,
           options: {
-            ...(typeof nextBabelUseItem.options === 'object' && nextBabelUseItem.options),
             isServer,
           },
         });
       } else {
         const nextBabelUseItem = nextBabelRule.use!;
         nextBabelRule.use = [
-          nextBabelRule.use,
           {
             loader,
             options: {
@@ -81,6 +72,7 @@ export function withStaticContext(nextConfig: NextConfig = {}) {
               isServer,
             },
           },
+          nextBabelRule.use,
         ];
       }
 
