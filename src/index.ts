@@ -63,12 +63,10 @@ export function withStaticContext(nextConfig: NextConfig = {}) {
           },
         });
       } else {
-        const nextBabelUseItem = nextBabelRule.use!;
         nextBabelRule.use = [
           {
             loader,
             options: {
-              ...(typeof nextBabelUseItem.options === 'object' && nextBabelUseItem.options),
               isServer,
             },
           },
