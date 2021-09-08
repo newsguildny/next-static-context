@@ -4,16 +4,16 @@
   "version": "0.1.3",
   "license": "MIT",
   "author": {
-    "name": "smoores",
-    "url": "https://smoores.dev"
+    "name": "The NewsGuild of New York",
+    "url": "https://nyguild.org"
   },
-  "homepage": "https://gitlab.com/smoores/next-static-context/-/blob/main/README.md",
+  "homepage": "https://github.com/newsguildny/next-static-context/-/blob/main/README.md",
   "bugs": {
-    "url": "https://gitlab.com/smoores/next-static-context/-/issues"
+    "url": "https://github.com/newsguildny/next-static-context/-/issues"
   },
   "repository": {
     "type": "git",
-    "url": "gitlab:smoores/next-static-context"
+    "url": "github:newsguildny/next-static-context"
   },
   "files": [
     "lib"
@@ -21,6 +21,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src --extensions .ts --ignore \"src/**/__tests__/**/*\" --out-dir lib",
+    "prepublishOnly": "yarn build",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },
