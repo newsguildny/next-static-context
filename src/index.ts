@@ -32,12 +32,12 @@ function findNextBabelRule(config: Configuration) {
     if (Array.isArray(rule.use)) {
       return rule.use.some((useItem) => {
         if (isRuleSetUseItem(useItem)) {
-          return useItem.loader === 'next-babel-loader';
+          return useItem.loader === 'next-babel-loader' || useItem.loader?.includes('babel/loader');
         }
         return false;
       });
     }
-    return rule.use?.loader === 'next-babel-loader';
+    return rule.use?.loader === 'next-babel-loader' || rule.use?.loader?.includes('babel/loader');
   }) as NextBabelRuleSetRule;
 }
 
