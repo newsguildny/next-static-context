@@ -11,7 +11,7 @@ const isDataIdentifier = (name: string): boolean => {
   return name === EXPORT_NAME_GET_STATIC_CONTEXT;
 };
 
-export default function nextTransformStaticContext({
+export default function transformNextStaticContext({
   types: t,
 }: {
   types: typeof BabelTypes;

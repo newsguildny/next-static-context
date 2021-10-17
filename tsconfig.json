@@ -9,6 +9,8 @@
 
     /* Emit */
     "outDir": "lib",                                   /* Specify an output folder for all emitted files. */
+    "declaration": true,
+    "emitDeclarationOnly": true,                        /* Only emit d.ts files; babel handles actual transformation */
 
     /* Interop Constraints */
     "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
@@ -20,5 +22,5 @@
     /* Completeness */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*.ts", "src/**/*.json"]
+  "include": ["src/**/*.ts", "src/**/*.json"],
 }

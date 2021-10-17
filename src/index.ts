@@ -1,84 +1,30 @@
-import { Configuration, RuleSetUseItem, RuleSetRule } from 'webpack';
+import { createContext, useContext } from 'react';
 
-interface NextConfig {
-  webpack?: (config: Configuration, options: { isServer?: boolean }) => Configuration;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export class StaticContextKey<GetterType extends (slug?: string) => unknown> {
+  constructor(public key: string) {}
 }
 
-interface NextBabelRuleSetUseItem {
-  ident?: string;
-  loader?: string;
-  options?: string | { [index: string]: any };
+export const StaticContext = createContext<Record<string, unknown>>({});
+
+export function useStaticContext<GetterType extends (slug?: string) => unknown>(
+  key: StaticContextKey<GetterType>
+) {
+  const context = useContext(StaticContext);
+  return context[key.key] as Unpacked<ReturnType<GetterType>>;
 }
 
-interface NextBabelRuleSetRule extends RuleSetRule {
-  use: NextBabelRuleSetUseItem | NextBabelRuleSetUseItem[];
-}
-
-function isRuleSetUseItem(
-  useItem: RuleSetUseItem
-): useItem is { ident?: string; loader?: string; options?: string | { [index: string]: any } } {
-  return !!(useItem as any).loader;
-}
-
-function findNextBabelRule(config: Configuration) {
-  return config.module?.rules?.find((rule) => {
-    if (
-      typeof rule === 'string' ||
-      typeof rule.use === 'string' ||
-      typeof rule.use === 'function'
-    ) {
-      return false;
+export async function getStaticContext(context: ReturnType<typeof require.context>) {
+  const contextGetters: Record<string, () => unknown> = {};
+  context.keys().forEach((key) => {
+    const m = context(key);
+    if (m.getStaticContext && m.staticContextKey) {
+      contextGetters[m.staticContextKey.key] = m.getStaticContext;
     }
-    if (Array.isArray(rule.use)) {
-      return rule.use.some((useItem) => {
-        if (isRuleSetUseItem(useItem)) {
-          return useItem.loader === 'next-babel-loader' || useItem.loader?.includes('babel/loader');
-        }
-        return false;
-      });
-    }
-    return rule.use?.loader === 'next-babel-loader' || rule.use?.loader?.includes('babel/loader');
-  }) as NextBabelRuleSetRule;
-}
-
-export function withStaticContext(nextConfig: NextConfig = {}) {
-  return {
-    ...nextConfig,
-    webpack(config: Configuration, options: { isServer?: boolean }) {
-      const { isServer } = options;
-
-      const nextBabelRule = findNextBabelRule(config);
-
-      if (!nextBabelRule || typeof nextBabelRule === 'string') {
-        return config;
-      }
-
-      const loader = require.resolve('./webpack/next-static-context-loader');
-
-      if (Array.isArray(nextBabelRule.use)) {
-        nextBabelRule.use.unshift({
-          loader,
-          options: {
-            isServer,
-          },
-        });
-      } else {
-        nextBabelRule.use = [
-          {
-            loader,
-            options: {
-              isServer,
-            },
-          },
-          nextBabelRule.use,
-        ];
-      }
-
-      if (typeof nextConfig.webpack === 'function') {
-        return nextConfig.webpack(config, options);
-      }
-
-      return config;
-    },
-  };
+  });
+  return Object.fromEntries(
+    await Promise.all(
+      Object.entries(contextGetters).map(async ([key, getter]) => [key, await getter()])
+    )
+  );
 }

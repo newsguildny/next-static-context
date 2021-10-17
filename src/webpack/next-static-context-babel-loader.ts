@@ -24,6 +24,11 @@ export default custom<{ isServer: boolean }>(() => {
       const { ...options } = cfg.options;
       if (!isServer) {
         options.plugins!.push([require.resolve('../babel/next-static-context-transform'), {}]);
+      } else {
+        options.plugins!.push([
+          require.resolve('../babel/next-static-context-getstaticprops-transform'),
+          {},
+        ]);
       }
       return options;
     },
