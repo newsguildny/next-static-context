@@ -16,7 +16,8 @@
     "url": "github:newsguildny/next-static-context"
   },
   "files": [
-    "lib"
+    "lib",
+    "get-static-context"
   ],
   "main": "lib/index.js",
   "scripts": {

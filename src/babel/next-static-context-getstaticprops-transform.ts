@@ -81,6 +81,8 @@ export default function transformNextGetStaticPropsWithStaticContext({
                     t.memberExpression(t.identifier('process'), t.identifier('env')),
                     t.identifier('NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT')
                   ),
+                  t.booleanLiteral(true),
+                  t.regExpLiteral('\\.[tj]sx?$'),
                 ]
               ),
             ])
@@ -119,7 +121,7 @@ export default function transformNextGetStaticPropsWithStaticContext({
 
     const getStaticContextImport = t.importDeclaration(
       [t.importSpecifier(t.identifier('getStaticContext'), t.identifier('getStaticContext'))],
-      t.stringLiteral('next-static-context')
+      t.stringLiteral('next-static-context/get-static-context')
     );
     if (needsImport) {
       (exportNamedPath.parentPath as NodePath<BabelTypes.Program>).unshiftContainer(
@@ -146,7 +148,8 @@ export default function transformNextGetStaticPropsWithStaticContext({
             {
               ImportDeclaration(importDeclarationPath, importDeclarationState) {
                 if (
-                  importDeclarationPath.node.source.value === 'next-static-context' &&
+                  importDeclarationPath.node.source.value ===
+                    'next-static-context/get-static-context' &&
                   importDeclarationPath.node.specifiers.some(
                     (specifier) =>
                       t.isImportSpecifier(specifier) &&

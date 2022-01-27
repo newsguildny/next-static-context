@@ -1,6 +1,8 @@
+import { resolve } from 'path';
 import type { Configuration, RuleSetUseItem, RuleSetRule } from 'webpack';
 
 interface NextConfig {
+  env?: Record<string, string>;
   webpack?: (config: Configuration, options: { isServer?: boolean }) => Configuration;
 }
 
@@ -44,6 +46,10 @@ function findNextBabelRule(config: Configuration) {
 export function withStaticContext(nextConfig: NextConfig = {}) {
   return {
     ...nextConfig,
+    env: {
+      ...nextConfig.env,
+      NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT: resolve(process.cwd(), './src'),
+    },
     webpack(config: Configuration, options: { isServer?: boolean }) {
       const { isServer } = options;
 
