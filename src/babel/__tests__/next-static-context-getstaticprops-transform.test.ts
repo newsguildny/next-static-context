@@ -17,7 +17,7 @@ const babel = (code: string, esm = true, pluginOptions = {}) =>
     babelrc: false,
     configFile: false,
     sourceType: 'module',
-    compact: true,
+    compact: false,
     caller: {
       name: 'tests',
       supportsStaticESM: esm,
@@ -37,9 +37,31 @@ describe('babel plugin (next-static-context-transform)', () => {
       }
     `);
 
-    expect(output).toMatchInlineSnapshot(
-      `"import{getStaticContext}from\\"next-static-context\\";function _getStaticProps({params}){const slug=params.slug[0]||'index';return{props:{slug}};}export async function getStaticProps(...args){const originalStaticProps=_getStaticProps(...args);const staticContext=await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));return{...originalStaticProps,props:{...originalStaticProps.props,staticContext}};}"`
-    );
+    expect(output).toMatchInlineSnapshot(`
+      "import { getStaticContext } from \\"next-static-context\\";
+
+      function _getStaticProps({
+        params
+      }) {
+        const slug = params.slug[0] || 'index';
+        return {
+          props: {
+            slug
+          }
+        };
+      }
+
+      export async function getStaticProps(...args) {
+        const originalStaticProps = _getStaticProps(...args);
+
+        const staticContext = await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));
+        return { ...originalStaticProps,
+          props: { ...originalStaticProps.props,
+            staticContext
+          }
+        };
+      }"
+    `);
   });
 
   it('should maintain async function declarations', () => {
@@ -54,16 +76,33 @@ describe('babel plugin (next-static-context-transform)', () => {
       }
     `);
 
-    expect(output).toMatchInlineSnapshot(
-      `"import{getStaticContext}from\\"next-static-context\\";async function _getStaticProps({params}){const slug=params.slug[0]||'index';return{props:{slug}};}export async function getStaticProps(...args){const originalStaticProps=await _getStaticProps(...args);const staticContext=await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));return{...originalStaticProps,props:{...originalStaticProps.props,staticContext}};}"`
-    );
+    expect(output).toMatchInlineSnapshot(`
+      "import { getStaticContext } from \\"next-static-context\\";
+
+      async function _getStaticProps({
+        params
+      }) {
+        const slug = params.slug[0] || 'index';
+        return {
+          props: {
+            slug
+          }
+        };
+      }
+
+      export async function getStaticProps(...args) {
+        const originalStaticProps = await _getStaticProps(...args);
+        const staticContext = await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));
+        return { ...originalStaticProps,
+          props: { ...originalStaticProps.props,
+            staticContext
+          }
+        };
+      }"
+    `);
   });
 
-  // For reasons that are beyond me, the test harness blows up on this test,
-  // saying that there are duplicate declarations for getStaticContetx.
-  // There are not, and this form works correctly in general!
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('should wrap getStaticProps variable declarations', () => {
+  it('should wrap getStaticProps variable declarations', () => {
     const output = babel(trim`
       export const getStaticProps = function({params}) {
         const slug = params.slug[0] || 'index';
@@ -75,8 +114,75 @@ describe('babel plugin (next-static-context-transform)', () => {
       }
     `);
 
-    expect(output).toMatchInlineSnapshot(
-      `"function _getStaticProps({params}){const slug=params.slug[0]||'index';return{props:{slug}};}export async function getStaticProps(...args){const originalStaticProps=_getStaticProps(...args);const staticContext=await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));return{...originalStaticProps,props:{...originalStaticProps.props,staticContext}};}"`
-    );
+    expect(output).toMatchInlineSnapshot(`
+      "import { getStaticContext } from \\"next-static-context\\";
+
+      function _getStaticProps({
+        params
+      }) {
+        const slug = params.slug[0] || 'index';
+        return {
+          props: {
+            slug
+          }
+        };
+      }
+
+      export async function getStaticProps(...args) {
+        const originalStaticProps = _getStaticProps(...args);
+
+        const staticContext = await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));
+        return { ...originalStaticProps,
+          props: { ...originalStaticProps.props,
+            staticContext
+          }
+        };
+      }"
+    `);
+  });
+
+  it('should not attempt to import getStaticContext if already imported', () => {
+    const output = babel(trim`
+      import { getStaticContext } from "next-static-context";
+
+      export function getStaticProps({params}) {
+        const staticContext = getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));
+        const slug = params.slug[0] || 'index';
+        return {
+          props: {
+            slug,
+            staticContext,
+          },
+        };
+      }
+    `);
+
+    expect(output).toMatchInlineSnapshot(`
+      "import { getStaticContext } from \\"next-static-context\\";
+
+      function _getStaticProps({
+        params
+      }) {
+        const staticContext = getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));
+        const slug = params.slug[0] || 'index';
+        return {
+          props: {
+            slug,
+            staticContext
+          }
+        };
+      }
+
+      export async function getStaticProps(...args) {
+        const originalStaticProps = _getStaticProps(...args);
+
+        const staticContext = await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));
+        return { ...originalStaticProps,
+          props: { ...originalStaticProps.props,
+            staticContext
+          }
+        };
+      }"
+    `);
   });
 });

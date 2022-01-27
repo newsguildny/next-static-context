@@ -127,7 +127,12 @@ export default function transformNextGetStaticPropsWithStaticContext({
         getStaticContextImport
       );
     }
-    exportNamedPath.replaceWithMultiple([originalGetStaticProps, newExport]);
+    exportNamedPath.remove();
+    (exportNamedPath.parentPath as NodePath<BabelTypes.Program>).pushContainer(
+      'body',
+      originalGetStaticProps
+    );
+    (exportNamedPath.parentPath as NodePath<BabelTypes.Program>).pushContainer('body', newExport);
   }
 
   return {
@@ -160,6 +165,9 @@ export default function transformNextGetStaticPropsWithStaticContext({
             {
               ExportNamedDeclaration(exportNamedPath, exportNamedState) {
                 const { declaration } = exportNamedPath.node;
+                if (exportNamedState.done) {
+                  return;
+                }
                 if (t.isFunctionDeclaration(declaration)) {
                   if (!isGetStaticProps(declaration)) {
                     return;
