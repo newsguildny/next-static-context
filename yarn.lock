@@ -6924,7 +6924,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.15.0
     react: ">=16.0.0"
-    webpack: ^5.0.0
   languageName: unknown
   linkType: soft
 
