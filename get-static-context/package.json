@@ -1,5 +1,0 @@
-{
-  "name": "next-static-context/get-static-context",
-  "private": true,
-  "main": "../lib/getStaticContext.js"
-}

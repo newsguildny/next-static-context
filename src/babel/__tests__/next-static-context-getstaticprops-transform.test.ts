@@ -54,7 +54,7 @@ describe('babel plugin (next-static-context-transform)', () => {
       export async function getStaticProps(...args) {
         const originalStaticProps = _getStaticProps(...args);
 
-        const staticContext = await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));
+        const staticContext = await getStaticContext();
         return { ...originalStaticProps,
           props: { ...originalStaticProps.props,
             staticContext
@@ -92,7 +92,7 @@ describe('babel plugin (next-static-context-transform)', () => {
 
       export async function getStaticProps(...args) {
         const originalStaticProps = await _getStaticProps(...args);
-        const staticContext = await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));
+        const staticContext = await getStaticContext();
         return { ...originalStaticProps,
           props: { ...originalStaticProps.props,
             staticContext
@@ -131,7 +131,7 @@ describe('babel plugin (next-static-context-transform)', () => {
       export async function getStaticProps(...args) {
         const originalStaticProps = _getStaticProps(...args);
 
-        const staticContext = await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));
+        const staticContext = await getStaticContext();
         return { ...originalStaticProps,
           props: { ...originalStaticProps.props,
             staticContext
@@ -176,7 +176,7 @@ describe('babel plugin (next-static-context-transform)', () => {
       export async function getStaticProps(...args) {
         const originalStaticProps = _getStaticProps(...args);
 
-        const staticContext = await getStaticContext(require.context(process.env.NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT));
+        const staticContext = await getStaticContext();
         return { ...originalStaticProps,
           props: { ...originalStaticProps.props,
             staticContext
