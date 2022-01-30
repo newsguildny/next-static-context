@@ -1,7 +1,7 @@
 {
   "name": "next-static-context",
   "packageManager": "yarn@3.1.1",
-  "version": "1.0.0",
+  "version": "1.0.0-rc1",
   "license": "MIT",
   "author": {
     "name": "The NewsGuild of New York",
@@ -71,5 +71,6 @@
     "@babel/parser": "^7.15.8",
     "@babel/traverse": "^7.15.4",
     "babel-loader": "^8.2.2"
-  }
+  },
+  "stableVersion": "1.0.0"
 }
