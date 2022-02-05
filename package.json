@@ -23,9 +23,11 @@
   "scripts": {
     "build": "babel src --extensions .ts --ignore \"src/**/__tests__/**/*\" --out-dir lib && tsc",
     "lint": "eslint",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "yarn build && pinst --disable",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "husky install",
+    "postpublish": "pinst --enable"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.8",
@@ -58,7 +60,10 @@
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-react": "^7.25.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": ">=6",
     "jest": "^27.1.0",
+    "lint-staged": ">=10",
+    "pinst": ">=2",
     "prettier": "^2.3.2",
     "react": "^17.0.2",
     "source-map": "^0.7.3",
