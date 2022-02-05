@@ -1,4 +1,4 @@
-name: Tests
+name: Validation
 on: [push]
 jobs:
   Run-Unit-Tests:
@@ -10,4 +10,12 @@ jobs:
         run: yarn install
       - name: Run unit tests
         run: yarn test
-      - run: echo "${{ job.status }}"
+  Compile-Source-Code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Compile
+        run: yarn build
