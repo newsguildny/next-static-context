@@ -1,6 +1,15 @@
 name: Validation
 on: [push]
 jobs:
+  Lint-Source-Code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Run eslint
+        run: yarn lint
   Run-Unit-Tests:
     runs-on: ubuntu-latest
     steps:

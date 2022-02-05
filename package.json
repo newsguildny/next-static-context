@@ -22,6 +22,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src --extensions .ts --ignore \"src/**/__tests__/**/*\" --out-dir lib && tsc",
+    "lint": "eslint",
     "prepublishOnly": "yarn build",
     "typecheck": "tsc --noEmit",
     "test": "jest"
