@@ -112,23 +112,28 @@ export function withStaticContext(nextConfig: NextConfig = {}) {
       // Update the externals config to count our plugin as _internal_.
       // This forces webpack to bundle our plugin, which is necessary to
       // support our use of `require.context()`.
-      if (isServer) {
-        const nextBaseExternals = config.externals as NextExternals;
-        config.externals = [
-          ({ context, request, dependencyType, getResolve }: ExternalItemFunctionData) => {
-            const isNextStaticContext = /^next-static-context/;
-            if (request && isNextStaticContext.test(request)) {
-              return undefined;
-            }
-            return nextBaseExternals[0]!({
-              context,
-              request,
-              dependencyType,
-              getResolve,
-            });
-          },
-        ];
-      }
+      // if (isServer) {
+      //   const nextBaseExternals = config.externals as NextExternals;
+      //   config.externals = [
+      //     ({ context, request, dependencyType, getResolve }: ExternalItemFunctionData) => {
+      //       console.log('determining externality for ', request, dependencyType);
+      //       const isNextStaticContext = /^next-static-context/;
+      //       if (request && isNextStaticContext.test(request)) {
+      //         console.log(request, 'is a next-static-context dependency');
+      //         return;
+      //       }
+      //       const result = nextBaseExternals[0]!({
+      //         context,
+      //         request,
+      //         dependencyType,
+      //         getResolve,
+      //       });
+      //       console.log('returning ', result, 'for', request);
+      //       // eslint-disable-next-line consistent-return
+      //       return result;
+      //     },
+      //   ];
+      // }
 
       // If there's a user-defined webpack config function,
       // be sure to call that, too.
