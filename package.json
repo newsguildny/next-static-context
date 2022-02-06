@@ -21,7 +21,7 @@
   ],
   "main": "lib/index.js",
   "scripts": {
-    "build": "babel src --extensions .ts --ignore \"src/**/__tests__/**/*\" --out-dir lib && tsc",
+    "build": "babel src --extensions .ts,.tsx --ignore \"src/**/__tests__/**/*\" --out-dir lib && tsc",
     "lint": "eslint",
     "prepublishOnly": "yarn build && pinst --disable",
     "typecheck": "tsc --noEmit",
@@ -63,6 +63,7 @@
     "husky": ">=6",
     "jest": "^27.1.0",
     "lint-staged": ">=10",
+    "next": "^12.0.10",
     "pinst": ">=2",
     "prettier": "^2.3.2",
     "react": "^17.0.2",
@@ -77,6 +78,7 @@
   },
   "dependencies": {
     "@babel/parser": "^7.15.8",
+    "@babel/preset-react": "^7.16.7",
     "@babel/traverse": "^7.15.4",
     "babel-loader": "^8.2.2"
   },

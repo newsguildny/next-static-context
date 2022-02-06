@@ -72,7 +72,7 @@ export default function transformNextGetStaticPropsWithStaticContext({
       t.variableDeclaration('const', [
         t.variableDeclarator(
           t.identifier('staticContext'),
-          t.awaitExpression(t.callExpression(t.identifier('getStaticContext'), []))
+          t.awaitExpression(t.callExpression(t.identifier('buildStaticContextValue'), []))
         ),
       ]),
       t.returnStatement(
@@ -106,7 +106,12 @@ export default function transformNextGetStaticPropsWithStaticContext({
     const newExport = t.exportNamedDeclaration(newGetStaticProps);
 
     const getStaticContextImport = t.importDeclaration(
-      [t.importSpecifier(t.identifier('getStaticContext'), t.identifier('getStaticContext'))],
+      [
+        t.importSpecifier(
+          t.identifier('buildStaticContextValue'),
+          t.identifier('buildStaticContextValue')
+        ),
+      ],
       t.stringLiteral('next-static-context')
     );
     if (needsImport) {
@@ -139,7 +144,7 @@ export default function transformNextGetStaticPropsWithStaticContext({
                     (specifier) =>
                       t.isImportSpecifier(specifier) &&
                       t.isIdentifier(specifier.local) &&
-                      specifier.local.name === 'getStaticContext'
+                      specifier.local.name === 'buildStaticContextValue'
                   )
                 ) {
                   importDeclarationState.needsImport = false;

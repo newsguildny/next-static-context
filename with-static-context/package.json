@@ -1,0 +1,5 @@
+{
+  "name": "with-static-context",
+  "private": true,
+  "main": "../lib/withStaticContext.js"
+}

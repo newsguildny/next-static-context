@@ -71,11 +71,11 @@ function findNextBabelRule(config: Configuration) {
 }
 
 /** Modifies the next.js config as needed to add support for this plugin */
-export function withStaticContext(nextConfig: NextConfig = {}) {
+export function withStaticContext(componentsDir: string, nextConfig: NextConfig = {}) {
   return {
     ...nextConfig,
     env: {
-      NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT: resolve(process.cwd(), './src'),
+      NEXT_STATIC_CONTEXT_REQUIRE_CONTEXT: resolve(process.cwd(), componentsDir),
       ...nextConfig.env,
     },
     webpack(config: Configuration, options: { isServer?: boolean }) {
