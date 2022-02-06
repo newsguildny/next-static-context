@@ -27,7 +27,7 @@
     "prepublishOnly": "yarn build && pinst --disable",
     "typecheck": "tsc --noEmit --emitDeclarationsOnly false",
     "test": "jest",
-    "_postinstall": "husky install",
+    "postinstall": "husky install",
     "postpublish": "pinst --enable",
     "publish": "yarn prepublishOnly && yarn npm publish && yarn postpublish"
   },
