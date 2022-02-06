@@ -21,7 +21,11 @@
     "strict": true,                                      /* Enable all strict type-checking options. */
 
     /* Completeness */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
+
+    /* Performance */
+    "incremental": true,                                   /* Use a local cache to speed up incremental builds. */
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo"              /* Store build info at the root */
   },
   "include": ["src/**/*.ts", "src/**/*.json", "src/App.tsx"],
 }
