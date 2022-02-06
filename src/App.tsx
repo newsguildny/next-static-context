@@ -14,9 +14,11 @@ export function App({
   Component,
   pageProps: { staticContext, ...pageProps },
 }: AppPropsWithContext) {
-  <StaticContext.Provider value={staticContext}>
-    <Component {...pageProps} />
-  </StaticContext.Provider>;
+  return (
+    <StaticContext.Provider value={staticContext}>
+      <Component {...pageProps} />
+    </StaticContext.Provider>
+  );
 }
 
 export function provideStaticContext(CustomApp: (appProps: AppProps) => JSX.Element) {
