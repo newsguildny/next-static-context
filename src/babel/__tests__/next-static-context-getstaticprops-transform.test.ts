@@ -38,7 +38,7 @@ describe('babel plugin (next-static-context-transform)', () => {
     `);
 
     expect(output).toMatchInlineSnapshot(`
-      "import { getStaticContext } from \\"next-static-context\\";
+      "import { buildStaticContextValue } from \\"next-static-context\\";
 
       function _getStaticProps({
         params
@@ -54,7 +54,7 @@ describe('babel plugin (next-static-context-transform)', () => {
       export async function getStaticProps(...args) {
         const originalStaticProps = _getStaticProps(...args);
 
-        const staticContext = await getStaticContext();
+        const staticContext = await buildStaticContextValue();
         return { ...originalStaticProps,
           props: { ...originalStaticProps.props,
             staticContext
@@ -77,7 +77,7 @@ describe('babel plugin (next-static-context-transform)', () => {
     `);
 
     expect(output).toMatchInlineSnapshot(`
-      "import { getStaticContext } from \\"next-static-context\\";
+      "import { buildStaticContextValue } from \\"next-static-context\\";
 
       async function _getStaticProps({
         params
@@ -92,7 +92,7 @@ describe('babel plugin (next-static-context-transform)', () => {
 
       export async function getStaticProps(...args) {
         const originalStaticProps = await _getStaticProps(...args);
-        const staticContext = await getStaticContext();
+        const staticContext = await buildStaticContextValue();
         return { ...originalStaticProps,
           props: { ...originalStaticProps.props,
             staticContext
@@ -115,7 +115,7 @@ describe('babel plugin (next-static-context-transform)', () => {
     `);
 
     expect(output).toMatchInlineSnapshot(`
-      "import { getStaticContext } from \\"next-static-context\\";
+      "import { buildStaticContextValue } from \\"next-static-context\\";
 
       function _getStaticProps({
         params
@@ -131,7 +131,7 @@ describe('babel plugin (next-static-context-transform)', () => {
       export async function getStaticProps(...args) {
         const originalStaticProps = _getStaticProps(...args);
 
-        const staticContext = await getStaticContext();
+        const staticContext = await buildStaticContextValue();
         return { ...originalStaticProps,
           props: { ...originalStaticProps.props,
             staticContext
@@ -158,7 +158,8 @@ describe('babel plugin (next-static-context-transform)', () => {
     `);
 
     expect(output).toMatchInlineSnapshot(`
-      "import { getStaticContext } from \\"next-static-context\\";
+      "import { buildStaticContextValue } from \\"next-static-context\\";
+      import { getStaticContext } from \\"next-static-context\\";
 
       function _getStaticProps({
         params
@@ -176,7 +177,7 @@ describe('babel plugin (next-static-context-transform)', () => {
       export async function getStaticProps(...args) {
         const originalStaticProps = _getStaticProps(...args);
 
-        const staticContext = await getStaticContext();
+        const staticContext = await buildStaticContextValue();
         return { ...originalStaticProps,
           props: { ...originalStaticProps.props,
             staticContext
