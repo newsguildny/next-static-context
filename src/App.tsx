@@ -12,7 +12,7 @@ interface AppPropsWithContext extends AppProps {
 
 export function App({
   Component,
-  pageProps: { staticContext, ...pageProps },
+  pageProps: { staticContext = {}, ...pageProps },
 }: AppPropsWithContext) {
   return (
     <StaticContext.Provider value={staticContext}>
