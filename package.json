@@ -1,7 +1,7 @@
 {
   "name": "next-static-context",
   "packageManager": "yarn@3.1.1",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "author": {
     "name": "The NewsGuild of New York",
@@ -27,7 +27,7 @@
     "prepublishOnly": "yarn build && pinst --disable",
     "typecheck": "tsc --noEmit --emitDeclarationsOnly false",
     "test": "jest",
-    "postinstall": "husky install",
+    "_postinstall": "husky install",
     "postpublish": "pinst --enable",
     "publish": "yarn prepublishOnly && yarn npm publish && yarn postpublish"
   },
