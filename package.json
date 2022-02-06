@@ -17,7 +17,8 @@
   },
   "files": [
     "lib",
-    "get-static-context"
+    "app",
+    "config"
   ],
   "main": "lib/index.js",
   "scripts": {

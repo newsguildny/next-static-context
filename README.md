@@ -27,7 +27,7 @@ npm install next-static-context
 Update your [`next.config.js`](https://nextjs.org/docs/api-reference/next.config.js/introduction):
 
 ```javascript
-const { withNextStaticContext } = require('next-static-context/with-static-context');
+const { withNextStaticContext } = require('next-static-context/config');
 
 // This is a relative path to the directory that holds your
 // React components.
@@ -150,7 +150,7 @@ Under the hood, this is also how `next-static-context/app` provides the `StaticC
 ```typescript
 
 /**
- * @package 'next-static-context/with-static-context'
+ * @package 'next-static-context/config'
  * 
  * Takes a relative path to a directory of React components, and
  * an optional Next.js configuration object. Returns a Next.js
